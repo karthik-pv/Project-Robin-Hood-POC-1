@@ -5,7 +5,10 @@ import os
 def execute_notebook_and_convert_to_markdown(directory, notebook_file, output_file):
     # Navigate to the target directory
     os.chdir(directory)
-    print(f"Changed directory to {os.getcwd()}")
+    print(f"Changed directory to: {os.getcwd()}")
+
+    # List files in the directory for debugging
+    print("Files in the directory:", os.listdir(directory))
 
     # Construct the command to execute the Jupyter notebook and convert it to Markdown
     command = [
@@ -15,7 +18,7 @@ def execute_notebook_and_convert_to_markdown(directory, notebook_file, output_fi
         "markdown",
         "--execute",
         "--output",
-        output_file,
+        output_file,  # Just the base name, without .md
         notebook_file,
     ]
 
@@ -28,7 +31,7 @@ def execute_notebook_and_convert_to_markdown(directory, notebook_file, output_fi
 
 
 # Example usage
-directory_path = "/home/user/AIML/End to End Machine Learning Project"
+directory_path = "/home/ubuntu/Desktop/End to End Machine Learning Project"
 notebook_filename = "test.ipynb"
 output_markdown_filename = "output_results"
 
