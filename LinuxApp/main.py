@@ -3,11 +3,9 @@ import os
 
 
 def execute_notebook_and_convert_to_markdown(directory, notebook_file, output_file):
-    # Navigate to the target directory
     os.chdir(directory)
     print(f"Changed directory to {os.getcwd()}")
 
-    # Construct the command to execute the Jupyter notebook and convert it to Markdown
     command = [
         "jupyter",
         "nbconvert",
