@@ -31,6 +31,6 @@ def send_folder_to_server(folder_path, server_url):
 
 if __name__ == "__main__":
     folder_to_zip = "D:\AIML\End to End Machine Learning Project"
-    server_api_url = "http://127.0.0.1:5000/uploadFolder"
+    server_api_url = "http://127.0.0.1:5000/uploadDirectory"
 
     send_folder_to_server(folder_to_zip, server_api_url)
