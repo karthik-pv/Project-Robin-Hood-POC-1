@@ -56,6 +56,7 @@ def prompt_send_folder():
     while True:
         user_input = input("Type 'yes' to send the folder or 'exit' to quit: ")
         if user_input.lower() == "yes":
+            user_input = ""
             if mySid:
                 send_folder_to_server(folder_to_zip, url, mySid)
             else:

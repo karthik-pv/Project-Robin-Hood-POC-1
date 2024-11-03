@@ -3,7 +3,10 @@ from flask_socketio import SocketIO
 import base64
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(
+    app, ping_timeout=6000, ping_interval=25000, max_http_buffer_size=10000000
+)
+
 
 connectedProviders = []
 receiverProviderMap = {}
@@ -23,16 +26,25 @@ def handleProviderConnection():
 
 @socketio.on("disconnect")
 def removeProviderConnection():
-    connectedProviders.remove(request.sid)
+    if request.sid in connectedProviders:
+        connectedProviders.remove(request.sid)
     print("providers")
     print(connectedProviders)
 
 
 @socketio.on("receiverConnect")
 def receiverConnect():
-    print("here")
     connectedProviders.remove(request.sid)
     socketio.emit("alertReceiver", {"sid": request.sid}, room=request.sid)
+
+
+@socketio.on("returnDirectory")
+def returnDir(data):
+    print("here")
+    connectedProviders.append(request.sid)
+    file = data["file"]
+    sidToEmit = receiverProviderMap[request.sid]
+    socketio.emit("obtainComputedDirectory", {"file": file}, room=sidToEmit)
 
 
 @app.route("/uploadDirectory", methods=["POST"])
@@ -42,11 +54,12 @@ def upload_directory():
         return jsonify({"error": "No file provided"}), 400
 
     file = data["file"]
+    mySid = data["sid"]
 
     if connectedProviders:
         target_sid = connectedProviders[0]
         connectedProviders.pop(0)
-
+        receiverProviderMap[target_sid] = mySid
         socketio.emit("receiveDir", {"file": file}, room=target_sid)
         print("Directory forwarded to provider:", target_sid)
 
@@ -54,14 +67,6 @@ def upload_directory():
     else:
         print("No connected providers available")
         return jsonify({"error": "No connected providers available"}), 404
-
-
-@socketio.on("returnDirectory")
-def returnDir(data):
-    print("here")
-    connectedProviders.append(request.sid)
-    file = data["file"]
-    socketio.emit("receiveDir", {"file": file})
 
 
 if __name__ == "__main__":
