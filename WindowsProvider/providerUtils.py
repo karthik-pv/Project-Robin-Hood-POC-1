@@ -23,6 +23,7 @@ def unzip_file(zip_path, extract_to="."):
 
 
 def execute_notebook_and_convert_to_markdown(directory, notebook_file, output_file):
+    originalDirectory = os.getcwd()
     os.chdir(directory)
     print(f"Changed directory to {os.getcwd()}")
 
@@ -38,7 +39,9 @@ def execute_notebook_and_convert_to_markdown(directory, notebook_file, output_fi
     ]
 
     try:
-        subprocess.run(command, check=True)
+        subprocess.run(command, check=True, cwd=directory)
         print(f"Notebook executed and converted to markdown: {output_file}.md")
     except subprocess.CalledProcessError as e:
         print(f"An error occurred during execution: {e}")
+    finally:
+        os.chdir(originalDirectory)

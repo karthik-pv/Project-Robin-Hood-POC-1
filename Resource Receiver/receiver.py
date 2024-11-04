@@ -5,17 +5,12 @@ import requests
 import threading
 from receiverUtils import zip_folder, unzip_file
 
-# Initialize SocketIO client
 sio = socketio.Client()
-mySid = None  # Set initial sid to None
-
-# Base URL for server
+mySid = None
 url = "http://127.0.0.1:5000"
-# Folder path to be zipped and sent
 folder_to_zip = "D:\\AIML\\End to End Machine Learning Project"
 
 
-# WebSocket Events
 @sio.on("alertReceiver")
 def receiver_connect(data):
     global mySid
@@ -31,6 +26,7 @@ def obtain_post_processing(data):
         f.write(file)
     unzip_file("processedNReceived.zip", folder_to_zip)
     print("File received and unzipped successfully.")
+    os.remove(os.path.join(os.getcwd(), "processedNReceived.zip"))
 
 
 def send_folder_to_server(folder_path, server_url, sid):
