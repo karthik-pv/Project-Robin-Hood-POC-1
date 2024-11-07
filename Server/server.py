@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_socketio import SocketIO
 import base64
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 socketio = SocketIO(
     app, ping_timeout=6000, ping_interval=25000, max_http_buffer_size=10000000
 )
@@ -70,4 +72,4 @@ def upload_directory():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host="localhost", port=5000, debug=True)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True)

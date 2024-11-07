@@ -9,7 +9,7 @@ from providerUtils import (
 import shutil
 
 sio = socketio.Client()
-url = "http://localhost:5000"
+url = "http://192.168.0.103:5000"
 
 
 @sio.event()
