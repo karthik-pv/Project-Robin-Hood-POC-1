@@ -2,6 +2,22 @@ import zipfile
 import subprocess
 import os
 import io
+import sys
+
+
+def install_requirements():
+    requirements_file = "requirements.txt"
+
+    if os.path.exists(requirements_file):
+        try:
+            subprocess.check_call(
+                [sys.executable, "-m", "pip", "install", "-r", requirements_file]
+            )
+            print("Dependencies installed successfully.")
+        except subprocess.CalledProcessError as e:
+            print(f"Error installing dependencies: {e}")
+    else:
+        print("requirements.txt file not found.")
 
 
 def zip_folder(folder_path):
@@ -26,7 +42,8 @@ def execute_notebook_and_convert_to_markdown(directory, notebook_file, output_fi
     originalDirectory = os.getcwd()
     os.chdir(directory)
     print(f"Changed directory to {os.getcwd()}")
-
+    os.environ["HOME"] = "/tmp"
+    install_requirements()
     execute_command = [
         "jupyter",
         "nbconvert",

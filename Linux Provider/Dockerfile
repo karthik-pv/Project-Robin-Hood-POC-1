@@ -1,28 +1,11 @@
-FROM ubuntu:latest
+FROM python:3.9
 
 # Install required packages
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-venv \
-    python3-pip \
-    jupyter-notebook \
-    jupyter-core \
-    jupyter-client \
-    jupyter-console \
-    jupyter-nbconvert \
-    zip \
-    unzip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Create a virtual environment
-RUN python3 -m venv /opt/venv
-
-# Activate the virtual environment
-ENV PATH="/opt/venv/bin:$PATH"
-
+RUN apt-get update && apt-get install --no-install-recommends 
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install -r requirements.txt
+RUN pip install jupyter nbconvert 
 
 # Copy the application code
 COPY lProvider.py providerUtils.py /app/
