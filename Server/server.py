@@ -6,7 +6,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(
-    app, ping_timeout=6000, ping_interval=25000, max_http_buffer_size=10000000
+    app, ping_timeout=6000, ping_interval=25000, max_http_buffer_size=100000000000
 )
 
 
