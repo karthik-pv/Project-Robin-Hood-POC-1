@@ -8,7 +8,7 @@ from receiverUtils import zip_folder, unzip_file
 sio = socketio.Client()
 mySid = None
 url = "http://127.0.0.1:5000"
-folder_to_zip = "D:\\AIML\\End to End Machine Learning Project"
+folder_to_zip = "D:\\AIML\\Emuser Test"
 
 
 @sio.on("alertReceiver")
