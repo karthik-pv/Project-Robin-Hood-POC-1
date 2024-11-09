@@ -8,7 +8,7 @@ RUN pip install -r requirements.txt
 RUN pip install jupyter nbconvert 
 
 
-COPY lProvider.py providerUtils.py /app/
+COPY dProvider.py providerUtils.py /app/
 WORKDIR /app
 
-CMD ["python", "lProvider.py"]
+CMD ["python", "dProvider.py"]
